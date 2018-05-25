@@ -25,6 +25,9 @@ public class Gerecht implements Serializable {
     private String naam;
     private double actuelePrijs;
 
+    public Gerecht() {
+    }
+
     public Long getId() {
         return id;
     }

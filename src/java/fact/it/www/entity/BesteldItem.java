@@ -26,6 +26,15 @@ public class BesteldItem implements Serializable {
     private int aantal;
     private double toegepastePrijs;
 
+    @ManyToOne
+    private Bestelling bestelling;
+
+    @ManyToOne
+    private Gerecht gerecht;
+
+    public BesteldItem() {
+    }
+
     public Long getId() {
         return id;
     }
@@ -58,12 +67,6 @@ public class BesteldItem implements Serializable {
     public String toString() {
         return "fact.it.www.entity.BesteldItem[ id=" + id + " ]";
     }
-    
-    @ManyToOne
-    private Bestelling bestelling;
-    
-    @ManyToOne
-    private Gerecht gerecht;
 
     public int getAantal() {
         return aantal;
@@ -104,5 +107,5 @@ public class BesteldItem implements Serializable {
         this.bestelling = bestelling;
         this.gerecht = gerecht;
     }
-    
+
 }

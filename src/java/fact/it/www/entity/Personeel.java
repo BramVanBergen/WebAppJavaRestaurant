@@ -22,27 +22,35 @@ import javax.persistence.Version;
  * @author Bram
  */
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn (name = "PERSONEELSTYPE", discriminatorType = DiscriminatorType.STRING)
+@DiscriminatorColumn(name = "PERSONEELSTYPE", discriminatorType = DiscriminatorType.STRING)
 @DiscriminatorValue("Personeel")
 @Entity
 public abstract class Personeel implements Serializable {
 
-        private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @Version
     private Long version;
+    private String naam;
 
     public Personeel(Long id, Long version, String naam) {
         this.id = id;
         this.version = version;
         this.naam = naam;
     }
-    private String naam;
-    
-    public Personeel(){
-        
+
+    public Personeel() {
+
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Long getVersion() {
@@ -59,14 +67,6 @@ public abstract class Personeel implements Serializable {
 
     public void setNaam(String naam) {
         this.naam = naam;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     @Override
@@ -93,5 +93,4 @@ public abstract class Personeel implements Serializable {
     public String toString() {
         return "fact.it.www.entity.Personeel[ id=" + id + " ]";
     }
-    
 }

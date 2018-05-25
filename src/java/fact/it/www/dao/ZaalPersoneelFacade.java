@@ -5,7 +5,7 @@
  */
 package fact.it.www.dao;
 
-import fact.it.www.entity.Gerecht;
+import fact.it.www.entity.ZaalPersoneel;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -15,7 +15,7 @@ import javax.persistence.PersistenceContext;
  * @author Bram
  */
 @Stateless
-public class GerechtFacade extends AbstractFacade<Gerecht> {
+public class ZaalPersoneelFacade extends AbstractFacade<ZaalPersoneel> {
 
     @PersistenceContext(unitName = "2APP-BIT1_Van_Bergen_Bram_restaurant2018PU")
     private EntityManager em;
@@ -25,8 +25,8 @@ public class GerechtFacade extends AbstractFacade<Gerecht> {
         return em;
     }
 
-    public GerechtFacade() {
-        super(Gerecht.class);
+    public ZaalPersoneelFacade() {
+        super(ZaalPersoneel.class);
     }
     
 }

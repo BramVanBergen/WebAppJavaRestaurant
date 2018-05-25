@@ -6,7 +6,9 @@
 package fact.it.www.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -26,8 +28,20 @@ public class Bestelling implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private GregorianCalendar datum;
+    
+    @ManyToOne
+    private Personeel personeel;
 
-    public Bestelling(Long id, GregorianCalendar datum, boolean betaald, Personeel personeel, Tafel tafel, BesteldItem besteldItem) {
+    @ManyToOne
+    private Tafel tafel;
+
+    @OneToMany(mappedBy = "bestelling")
+    private List<BesteldItem> besteldItem = new ArrayList<BesteldItem>();
+
+    public Bestelling() {
+    }
+
+    public Bestelling(Long id, GregorianCalendar datum, boolean betaald, Personeel personeel, Tafel tafel, List<BesteldItem> besteldItem) {
         this.id = id;
         this.datum = datum;
         this.betaald = betaald;
@@ -68,11 +82,11 @@ public class Bestelling implements Serializable {
         this.tafel = tafel;
     }
 
-    public BesteldItem getBesteldItem() {
+    public List<BesteldItem> getBesteldItem() {
         return besteldItem;
     }
 
-    public void setBesteldItem(BesteldItem besteldItem) {
+    public void setBesteldItem(List<BesteldItem> besteldItem) {
         this.besteldItem = besteldItem;
     }
     private boolean betaald;
@@ -109,13 +123,4 @@ public class Bestelling implements Serializable {
     public String toString() {
         return "fact.it.www.entity.Bestelling[ id=" + id + " ]";
     }
-    
-    @ManyToOne
-    private Personeel personeel;
-    
-    @ManyToOne
-    private Tafel tafel;
-    
-    @OneToMany
-    private BesteldItem besteldItem;
 }

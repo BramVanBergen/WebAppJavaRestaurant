@@ -5,7 +5,7 @@
  */
 package fact.it.www.dao;
 
-import fact.it.www.entity.BesteldItem;
+import fact.it.www.entity.KeukenPersoneel;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -15,7 +15,7 @@ import javax.persistence.PersistenceContext;
  * @author Bram
  */
 @Stateless
-public class BesteldItemFacade extends AbstractFacade<BesteldItem> {
+public class KeukenPersoneelFacade extends AbstractFacade<KeukenPersoneel> {
 
     @PersistenceContext(unitName = "2APP-BIT1_Van_Bergen_Bram_restaurant2018PU")
     private EntityManager em;
@@ -25,8 +25,8 @@ public class BesteldItemFacade extends AbstractFacade<BesteldItem> {
         return em;
     }
 
-    public BesteldItemFacade() {
-        super(BesteldItem.class);
+    public KeukenPersoneelFacade() {
+        super(KeukenPersoneel.class);
     }
     
 }

@@ -6,6 +6,7 @@
 package fact.it.www.entity;
 
 import java.io.Serializable;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,36 +17,15 @@ import javax.persistence.Id;
  * @author Bram
  */
 @Entity
-public class Tafel implements Serializable {
+@DiscriminatorValue("KeukenPersoneel")
+public class KeukenPersoneel extends Personeel implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String code;
 
-    public Tafel() {
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public Tafel(Long id, String code) {
-        this.id = id;
-        this.code = code;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
+    public KeukenPersoneel() {
     }
 
     @Override
@@ -58,10 +38,10 @@ public class Tafel implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Tafel)) {
+        if (!(object instanceof KeukenPersoneel)) {
             return false;
         }
-        Tafel other = (Tafel) object;
+        KeukenPersoneel other = (KeukenPersoneel) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -70,7 +50,6 @@ public class Tafel implements Serializable {
 
     @Override
     public String toString() {
-        return "fact.it.www.entity.Tafel[ id=" + id + " ]";
+        return "fact.it.www.entity.KeukenPersoneel[ id=" + id + " ]";
     }
-
 }
