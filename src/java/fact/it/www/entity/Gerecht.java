@@ -16,26 +16,14 @@ import javax.persistence.Id;
  * @author Bram
  */
 @Entity
-public class Tafel implements Serializable {
+public class Gerecht implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String code;
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public Tafel(Long id, String code) {
-        this.id = id;
-        this.code = code;
-    }
+    private String naam;
+    private double actuelePrijs;
 
     public Long getId() {
         return id;
@@ -55,10 +43,10 @@ public class Tafel implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Tafel)) {
+        if (!(object instanceof Gerecht)) {
             return false;
         }
-        Tafel other = (Tafel) object;
+        Gerecht other = (Gerecht) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -67,7 +55,28 @@ public class Tafel implements Serializable {
 
     @Override
     public String toString() {
-        return "fact.it.www.entity.Tafel[ id=" + id + " ]";
+        return "fact.it.www.entity.Gerecht[ id=" + id + " ]";
     }
-    
+
+    public String getNaam() {
+        return naam;
+    }
+
+    public void setNaam(String naam) {
+        this.naam = naam;
+    }
+
+    public double getActuelePrijs() {
+        return actuelePrijs;
+    }
+
+    public void setActuelePrijs(double actuelePrijs) {
+        this.actuelePrijs = actuelePrijs;
+    }
+
+    public Gerecht(Long id, String naam, double actuelePrijs) {
+        this.id = id;
+        this.naam = naam;
+        this.actuelePrijs = actuelePrijs;
+    }
 }

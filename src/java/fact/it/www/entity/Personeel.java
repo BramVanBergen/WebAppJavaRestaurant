@@ -33,6 +33,12 @@ public abstract class Personeel implements Serializable {
     private Long id;
     @Version
     private Long version;
+
+    public Personeel(Long id, Long version, String naam) {
+        this.id = id;
+        this.version = version;
+        this.naam = naam;
+    }
     private String naam;
     
     public Personeel(){

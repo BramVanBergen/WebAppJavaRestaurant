@@ -6,10 +6,13 @@
 package fact.it.www.entity;
 
 import java.io.Serializable;
+import java.util.GregorianCalendar;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 /**
  *
@@ -22,6 +25,57 @@ public class Bestelling implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    private GregorianCalendar datum;
+
+    public Bestelling(Long id, GregorianCalendar datum, boolean betaald, Personeel personeel, Tafel tafel, BesteldItem besteldItem) {
+        this.id = id;
+        this.datum = datum;
+        this.betaald = betaald;
+        this.personeel = personeel;
+        this.tafel = tafel;
+        this.besteldItem = besteldItem;
+    }
+
+    public GregorianCalendar getDatum() {
+        return datum;
+    }
+
+    public void setDatum(GregorianCalendar datum) {
+        this.datum = datum;
+    }
+
+    public boolean isBetaald() {
+        return betaald;
+    }
+
+    public void setBetaald(boolean betaald) {
+        this.betaald = betaald;
+    }
+
+    public Personeel getPersoneel() {
+        return personeel;
+    }
+
+    public void setPersoneel(Personeel personeel) {
+        this.personeel = personeel;
+    }
+
+    public Tafel getTafel() {
+        return tafel;
+    }
+
+    public void setTafel(Tafel tafel) {
+        this.tafel = tafel;
+    }
+
+    public BesteldItem getBesteldItem() {
+        return besteldItem;
+    }
+
+    public void setBesteldItem(BesteldItem besteldItem) {
+        this.besteldItem = besteldItem;
+    }
+    private boolean betaald;
 
     public Long getId() {
         return id;
@@ -56,4 +110,12 @@ public class Bestelling implements Serializable {
         return "fact.it.www.entity.Bestelling[ id=" + id + " ]";
     }
     
+    @ManyToOne
+    private Personeel personeel;
+    
+    @ManyToOne
+    private Tafel tafel;
+    
+    @OneToMany
+    private BesteldItem besteldItem;
 }
