@@ -13,7 +13,7 @@ import javax.persistence.Id;
 
 /**
  *
- * @author Bram
+ * @author Bram Van Bergen
  */
 @Entity
 public class Gerecht implements Serializable {

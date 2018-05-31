@@ -12,7 +12,7 @@ import javax.persistence.PersistenceContext;
 
 /**
  *
- * @author Bram
+ * @author Bram Van Bergen
  */
 @Stateless
 public class BestellingFacade extends AbstractFacade<Bestelling> {

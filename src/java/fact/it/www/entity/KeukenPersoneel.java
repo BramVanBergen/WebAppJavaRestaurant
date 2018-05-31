@@ -5,51 +5,31 @@
  */
 package fact.it.www.entity;
 
+import fact.it.www.beans.IngangTeller;
 import java.io.Serializable;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 
 /**
  *
- * @author Bram
+ * @author Bram Van Bergen
  */
 @Entity
 @DiscriminatorValue("KeukenPersoneel")
 public class KeukenPersoneel extends Personeel implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-
     public KeukenPersoneel() {
+        
+    }
+    
+    public KeukenPersoneel(String naam) {
+        super(naam);
     }
 
+    //doe hier iets als er klanten binnekomen
     @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof KeukenPersoneel)) {
-            return false;
-        }
-        KeukenPersoneel other = (KeukenPersoneel) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "fact.it.www.entity.KeukenPersoneel[ id=" + id + " ]";
+    public void update() {
+        String keukenstring = "Ik ben " + getNaam() + " en ik begin onmiddellijk met het maken van " + IngangTeller.getInstance().getAantal() + " amuse-gueules!";
+        System.out.println(keukenstring);
     }
 }

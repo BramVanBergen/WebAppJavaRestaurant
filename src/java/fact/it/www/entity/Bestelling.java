@@ -18,7 +18,7 @@ import javax.persistence.OneToMany;
 
 /**
  *
- * @author Bram
+ * @author Bram Van Bergen
  */
 @Entity
 public class Bestelling implements Serializable {

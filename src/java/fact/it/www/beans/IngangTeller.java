@@ -7,9 +7,9 @@ package fact.it.www.beans;
 
 /**
  *
- * @author Bram
+ * @author Bram Van Bergen
  */
-public class IngangTeller {
+public class IngangTeller extends Subject{
 
     private static IngangTeller ingangTeller;
     private int aantal;
@@ -24,6 +24,7 @@ public class IngangTeller {
 
     public void setAantal(int aantal) {
         this.aantal = aantal;
+        notifyObservers();
     }
     
     public static IngangTeller getInstance() {

@@ -15,34 +15,36 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.Version;
 
 /**
  *
- * @author Bram
+ * @author Bram Van Bergen
  */
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@Entity
 @DiscriminatorColumn(name = "PERSONEELSTYPE", discriminatorType = DiscriminatorType.STRING)
 @DiscriminatorValue("Personeel")
-@Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public abstract class Personeel implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @Version
-    private Long version;
     private String naam;
 
-    public Personeel(Long id, Long version, String naam) {
+    public abstract void update();
+
+    public Personeel(Long id, String naam) {
         this.id = id;
-        this.version = version;
         this.naam = naam;
     }
 
     public Personeel() {
 
+    }
+    
+    public Personeel(String naam) {
+        this.naam = naam;
     }
 
     public Long getId() {
@@ -51,14 +53,6 @@ public abstract class Personeel implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Long getVersion() {
-        return version;
-    }
-
-    public void setVersion(Long version) {
-        this.version = version;
     }
 
     public String getNaam() {

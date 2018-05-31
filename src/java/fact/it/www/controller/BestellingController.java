@@ -10,7 +10,7 @@ import javax.enterprise.context.Dependent;
 
 /**
  *
- * @author Bram
+ * @author Bram Van Bergen
  */
 @Named(value = "bestellingController")
 @Dependent

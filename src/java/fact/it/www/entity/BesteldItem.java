@@ -14,7 +14,7 @@ import javax.persistence.ManyToOne;
 
 /**
  *
- * @author Bram
+ * @author Bram Van Bergen
  */
 @Entity
 public class BesteldItem implements Serializable {
