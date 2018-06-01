@@ -5,16 +5,19 @@
  */
 package fact.it.www.entity;
 
+import fact.it.www.beans.BetaalStrategie;
 import java.io.Serializable;
+import java.util.List;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
-import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 
 /**
  *
@@ -28,26 +31,51 @@ public class Bestelling implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private GregorianCalendar datum;
-    
+    private Boolean betaald;
+
+    @Transient
+    private BetaalStrategie betaalStrategie;
+
     @ManyToOne
     private Personeel personeel;
+
+    public BetaalStrategie getBetaalStrategie() {
+        return betaalStrategie;
+    }
+
+    public void setBetaalStrategie(BetaalStrategie betaalStrategie) {
+        this.betaalStrategie = betaalStrategie;
+    }
 
     @ManyToOne
     private Tafel tafel;
 
-    @OneToMany(mappedBy = "bestelling")
-    private List<BesteldItem> besteldItem = new ArrayList<BesteldItem>();
+    @OneToMany(mappedBy = "bestelling", cascade = CascadeType.PERSIST)
+    private List<BesteldItem> itemlijst = new ArrayList<BesteldItem>();
 
     public Bestelling() {
     }
 
-    public Bestelling(Long id, GregorianCalendar datum, boolean betaald, Personeel personeel, Tafel tafel, List<BesteldItem> besteldItem) {
-        this.id = id;
-        this.datum = datum;
-        this.betaald = betaald;
-        this.personeel = personeel;
-        this.tafel = tafel;
-        this.besteldItem = besteldItem;
+    public void addItem(Gerecht gerecht, int aantal) {
+        BesteldItem besteldItem = new BesteldItem();
+        besteldItem.setAantal(aantal);
+        besteldItem.setGerecht(gerecht);
+        besteldItem.setBestelling(this);
+        besteldItem.setToegepastePrijs(gerecht.getActuelePrijs());
+        itemlijst.add(besteldItem);
+    }
+
+    public void maakRekening() {
+        double sum = 0;
+        for (BesteldItem bi : itemlijst) {
+            sum += bi.getAantal() * bi.getToegepastePrijs();
+            System.out.println(bi.getAantal() + " "
+                    + bi.getGerecht().getNaam() + " prijs "
+                    + bi.getAantal() * bi.getToegepastePrijs());
+        }
+        System.out.println("-----------------------------------");
+        System.out.println("Totaal: " + sum);
+
     }
 
     public GregorianCalendar getDatum() {
@@ -82,14 +110,21 @@ public class Bestelling implements Serializable {
         this.tafel = tafel;
     }
 
-    public List<BesteldItem> getBesteldItem() {
-        return besteldItem;
+    public Boolean getBetaald() {
+        return betaald;
     }
 
-    public void setBesteldItem(List<BesteldItem> besteldItem) {
-        this.besteldItem = besteldItem;
+    public void setBetaald(Boolean betaald) {
+        this.betaald = betaald;
     }
-    private boolean betaald;
+
+    public List<BesteldItem> getItemlijst() {
+        return itemlijst;
+    }
+
+    public void setItemlijst(List<BesteldItem> itemlijst) {
+        this.itemlijst = itemlijst;
+    }
 
     public Long getId() {
         return id;
