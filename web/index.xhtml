@@ -9,17 +9,19 @@ and open the template in the editor.
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <head>
-        <title>TODO supply a title</title>
+        <title>Index</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous"/>
     </head>
     <body>
         <div class="container">
             <h:form>
-                <h:commandButton class="btn btn-default" value="Test Singleton Pattern" action="#{personeelController.testSingletonPatroon()}"/>
-                <h:commandButton class="btn btn-default" value="Test Observer Pattern" action="#{personeelController.testObserverPatroon()}"/>
-                <h:commandButton class="btn btn-default" value="Test Strategy Pattern" action="#{bestellingController.testStrategyPatroon()}"/>
-                <h:commandButton class="btn btn-default" value="Test Singleton Pattern" action="#{personeelController.testSingletonPatroon()}"/>
+                <h:commandButton class="btn btn-default" value="Test Singleton Pattern" action="#{testController.testSingletonPatroon()}"/>
+                <h:commandButton class="btn btn-default" value="Test Observer Pattern" action="#{testController.testObserverPatroon()}"/>
+                <h:commandButton class="btn btn-default" value="Test Strategy Pattern" action="#{testController.testStrategyPatroon()}"/>
+                <h:commandButton class="btn btn-default" value="Test Decorator Pattern" action="#{testController.testDecoratorPatroon()}"/> 
+                <h:commandButton class="btn btn-default" value="Bestellingen opvullen" action="#{bestellingController.opvullen()}"/>  
+                <h:commandButton class="btn btn-default" value="HomePage" action="Homepage.xhtml"/>
             </h:form>
         </div>
     </body>

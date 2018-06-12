@@ -5,8 +5,8 @@
         <property name="serverName" value="localhost"/>
         <property name="portNumber" value="1521"/>
         <property name="databaseName" value="XE"/>
-        <property name="User" value="ADMIN"/>
-        <property name="Password" value="admin"/>
+        <property name="User" value="admin"/>
+        <property name="Password" value="sql"/>
         <property name="URL" value="jdbc:oracle:thin:@localhost:1521:XE"/>
         <property name="driverClass" value="oracle.jdbc.OracleDriver"/>
     </jdbc-connection-pool>
