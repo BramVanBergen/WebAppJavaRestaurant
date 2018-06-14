@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:t="http://xmlns.jcp.org/jsf/passthrough">
+    <body>
+        <ui:composition template="/templates/Layout.xhtml">
+            <ui:define name="content">
+                <h:form>
+                    <div class="container">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Personeelslid:</th>
+                                    <th>#{bestellingController.zaalpersoneel.naam}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th>Betaald</th>
+                                    <td class="justify-content-center"><h:selectBooleanCheckbox value="false" /></td>
+                                </tr>
+                                <tr>
+                                    <th>Tafel:</th>
+                                    <td>
+                                        <h:selectOneMenu binding="#{tafelId}">
+                                            <f:selectItems  value="#{bestellingController.findAllTafels()}" var="t" itemLabel="#{t.code}" itemValue="#{t.id}" />
+                                        </h:selectOneMenu>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <h3>Gerechten</h3>
+                        <h:dataTable var="b" value="#{bestellingController.bestelling.besteldeItems}" class="table">
+                            <h:column>    				
+                                <f:facet name = "header">Gerecht</f:facet>
+                                    #{b.gerecht.naam}
+                            </h:column>
+                            <h:column>    				
+                                <f:facet name = "header">Actuele prijs</f:facet>  
+                                € #{b.gerecht.actuelePrijs}
+                            </h:column>
+                            <h:column>
+                                <f:facet name = "header">Toegepaste prijs</f:facet>  
+                                € #{b.toegepastePrijs}
+                            </h:column>
+                            <h:column>    				
+                                <f:facet name = "header">Aantal</f:facet>   
+                                    #{b.aantal}
+                            </h:column>
+                            <h:column>
+                                <f:facet name = "header">verwijder</f:facet>
+                                <h:commandLink class="btn" action="#{bestellingController.removeBesteldItem(b.gerecht.id, b.aantal, b.toegepastePrijs)}">Verwijder</h:commandLink>
+                            </h:column>
+                        </h:dataTable>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Gerecht</th>
+                                    <th>Aantal</th>
+                                    <th>Betaalstrategie</th>
+                                    <th>Toevoegen</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <h:selectOneMenu class="input" id="form-select-gerecht" binding="#{gerecht}">
+                                            <f:selectItems value="#{bestellingController.findAllGerechten()}" var="g" itemLabel="#{g.naam} | € #{g.actuelePrijs}" itemValue="#{g.id}"/>
+                                        </h:selectOneMenu>
+                                    </td>
+                                    <td>
+                                        <h:inputText t:type="number" class="input" id="form-select-jaar" binding="#{aantal}" t:min="1"></h:inputText>
+                                    </td>
+                                    <td>
+                                        <h:selectOneMenu class="input" id="form-select-betaal" binding="#{betaalStrategie}">
+                                            <f:selectItems value="#{bestellingController.betaalStrategieën}" var="b" itemLabel="#{b}" itemValue="#{b}"/>
+                                        </h:selectOneMenu>
+                                    </td>
+                                    <td>
+                                        <h:commandButton class="btn" value="Gerecht toevoegen" action="#{bestellingController.addGerecht(gerecht.value, aantal.value, betaalStrategie.value)}"/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br></br>
+                    </div>
+                    <div class="row justify-content-center">
+                        <h:commandButton class="btn knop nav-item" value="Bevestigen" action='#{bestellingController.opslaanBestelling(tafel.value)}'/>
+                        <h:commandButton class="btn knop nav-item" value="Annuleren" action="homepage"/>
+                    </div>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>

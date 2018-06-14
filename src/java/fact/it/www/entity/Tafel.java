@@ -6,10 +6,14 @@
 package fact.it.www.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 /**
  *
@@ -19,12 +23,25 @@ import javax.persistence.Id;
 public class Tafel implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String code;
+    
+    @OneToMany(mappedBy = "tafel", cascade = CascadeType.PERSIST)
+    private List<Bestelling> bestellingen = new ArrayList<Bestelling>();
+    
+    public Tafel(){
+        
+    }
 
-    public Tafel() {
+    public List<Bestelling> getBestellingen() {
+        return bestellingen;
+    }
+
+    public void setBestellingen(List<Bestelling> bestellingen) {
+        this.bestellingen = bestellingen;
     }
 
     public String getCode() {
@@ -32,11 +49,6 @@ public class Tafel implements Serializable {
     }
 
     public void setCode(String code) {
-        this.code = code;
-    }
-
-    public Tafel(Long id, String code) {
-        this.id = id;
         this.code = code;
     }
 
@@ -72,5 +84,5 @@ public class Tafel implements Serializable {
     public String toString() {
         return "fact.it.www.entity.Tafel[ id=" + id + " ]";
     }
-
+    
 }

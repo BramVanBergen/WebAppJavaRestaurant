@@ -7,15 +7,17 @@ package fact.it.www.entity;
 
 import fact.it.www.beans.BetaalStrategie;
 import java.io.Serializable;
-import java.util.List;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
@@ -23,6 +25,24 @@ import javax.persistence.Transient;
  *
  * @author Bram Van Bergen
  */
+@NamedQueries ({
+    @NamedQuery(
+        name = "Bestelling.zoekOpTafel",
+        query = "select b FROM Bestelling AS b where (b.tafel.id) = :tafelId"
+    ),
+    @NamedQuery(
+        name = "Bestelling.zoekOpDag",
+        query = "select b FROM Bestelling b where (b.datum) BETWEEN :datum AND :datum2"
+    ),
+    @NamedQuery(
+        name = "Bestelling.zoekOpMaand",
+        query = "select b FROM Bestelling b where extract(month from b.datum) = :maand"
+    ),
+    @NamedQuery(
+        name = "Bestelling.zoekOpJaar",
+        query = "select b FROM Bestelling b where extract(year from b.datum) = :jaar"
+    )
+})
 @Entity
 public class Bestelling implements Serializable {
 
@@ -31,51 +51,46 @@ public class Bestelling implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private GregorianCalendar datum;
-    private Boolean betaald;
-
+    private boolean betaald;
+    
     @Transient
     private BetaalStrategie betaalStrategie;
-
+    
     @ManyToOne
-    private Personeel personeel;
-
-    public BetaalStrategie getBetaalStrategie() {
-        return betaalStrategie;
-    }
-
-    public void setBetaalStrategie(BetaalStrategie betaalStrategie) {
-        this.betaalStrategie = betaalStrategie;
-    }
-
+    private Zaalpersoneel zaalpersoneel;
+    
     @ManyToOne
     private Tafel tafel;
-
+    
     @OneToMany(mappedBy = "bestelling", cascade = CascadeType.PERSIST)
-    private List<BesteldItem> itemlijst = new ArrayList<BesteldItem>();
-
-    public Bestelling() {
+    private List<BesteldItem> besteldeItems = new ArrayList<BesteldItem>();
+    
+    public Bestelling(){
+        
     }
 
-    public void addItem(Gerecht gerecht, int aantal) {
-        BesteldItem besteldItem = new BesteldItem();
-        besteldItem.setAantal(aantal);
-        besteldItem.setGerecht(gerecht);
-        besteldItem.setBestelling(this);
-        besteldItem.setToegepastePrijs(gerecht.getActuelePrijs());
-        itemlijst.add(besteldItem);
+    public Zaalpersoneel getZaalpersoneel() {
+        return zaalpersoneel;
     }
 
-    public void maakRekening() {
-        double sum = 0;
-        for (BesteldItem bi : itemlijst) {
-            sum += bi.getAantal() * bi.getToegepastePrijs();
-            System.out.println(bi.getAantal() + " "
-                    + bi.getGerecht().getNaam() + " prijs "
-                    + bi.getAantal() * bi.getToegepastePrijs());
-        }
-        System.out.println("-----------------------------------");
-        System.out.println("Totaal: " + sum);
+    public void setZaalpersoneel(Zaalpersoneel zaalpersoneel) {
+        this.zaalpersoneel = zaalpersoneel;
+    }
 
+    public Tafel getTafel() {
+        return tafel;
+    }
+
+    public void setTafel(Tafel tafel) {
+        this.tafel = tafel;
+    }
+
+    public List<BesteldItem> getBesteldeItems() {
+        return besteldeItems;
+    }
+
+    public void setBesteldeItems(List<BesteldItem> besteldeItems) {
+        this.besteldeItems = besteldeItems;
     }
 
     public GregorianCalendar getDatum() {
@@ -94,38 +109,6 @@ public class Bestelling implements Serializable {
         this.betaald = betaald;
     }
 
-    public Personeel getPersoneel() {
-        return personeel;
-    }
-
-    public void setPersoneel(Personeel personeel) {
-        this.personeel = personeel;
-    }
-
-    public Tafel getTafel() {
-        return tafel;
-    }
-
-    public void setTafel(Tafel tafel) {
-        this.tafel = tafel;
-    }
-
-    public Boolean getBetaald() {
-        return betaald;
-    }
-
-    public void setBetaald(Boolean betaald) {
-        this.betaald = betaald;
-    }
-
-    public List<BesteldItem> getItemlijst() {
-        return itemlijst;
-    }
-
-    public void setItemlijst(List<BesteldItem> itemlijst) {
-        this.itemlijst = itemlijst;
-    }
-
     public Long getId() {
         return id;
     }
@@ -133,6 +116,64 @@ public class Bestelling implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
+
+    public BetaalStrategie getBetaalStrategie() {
+        return betaalStrategie;
+    }
+
+    public void setBetaalStrategie(BetaalStrategie betaalStrategie) {
+        this.betaalStrategie = betaalStrategie;
+    }
+    
+    public void addItem(Gerecht gerecht, int aantal){
+        BesteldItem besteldItem = new BesteldItem();
+        besteldItem.setAantal(aantal);
+        besteldItem.setGerecht(gerecht);
+        besteldItem.setBestelling(this);
+        besteldItem.setToegepastePrijs(betaalStrategie.getToegepastePrijs(gerecht.getActuelePrijs()));
+        besteldeItems.add(besteldItem);
+    } 
+    
+    public void removeItem(Gerecht gerecht, int aantal, double prijs){
+        List<BesteldItem> toRemove = new ArrayList<>();
+        
+        for(BesteldItem besteldItem : besteldeItems){
+            System.out.println(besteldItem.getAantal() + " --> " + aantal);
+            System.out.println(besteldItem.getToegepastePrijs()+ " --> " + prijs);
+            System.out.println(besteldItem.getGerecht()+ " --> " + gerecht);
+            
+            if(besteldItem.getAantal() == aantal && besteldItem.getToegepastePrijs() == prijs && besteldItem.getGerecht().equals(gerecht)){
+                toRemove.add(besteldItem);
+            }
+        }
+        
+        for(BesteldItem besteldItem : toRemove){
+            besteldeItems.remove(besteldItem);
+        }
+    }
+    
+    public double getTotal(){
+        double sum = 0;
+        
+        for(BesteldItem bi: besteldeItems){
+            sum += bi.getAantal() * bi.getToegepastePrijs();
+        }
+        
+        return (double) Math.round(sum * 100) / 100;
+    }
+    
+    public void maakRekening(){
+        double sum = 0;
+        
+        for(BesteldItem bi : besteldeItems){
+            sum += bi.getAantal() * bi.getToegepastePrijs();
+            System.out.println(bi.getAantal() + " " + bi.getGerecht().getNaam() + " prijs " + bi.getAantal() * bi.getToegepastePrijs());
+        }
+        
+        System.out.println("---------------------");
+        System.out.println("Totaal: " + (double) Math.round(sum * 100) / 100);
+    }
+
 
     @Override
     public int hashCode() {
@@ -158,4 +199,5 @@ public class Bestelling implements Serializable {
     public String toString() {
         return "fact.it.www.entity.Bestelling[ id=" + id + " ]";
     }
+    
 }

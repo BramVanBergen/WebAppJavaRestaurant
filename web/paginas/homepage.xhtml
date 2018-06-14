@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <body>
+        <ui:composition template="/templates/Layout.xhtml">
+            <ui:define name="content">
+                <div class="container">
+                    <h:form>
+                        <h1>Personeel</h1>
+                        <h:dataTable var="table" value="#{personeelController.findAll()}" class="table">
+                            <h:column>
+                                <f:facet name="header">Naam</f:facet>
+                                    #{table.naam}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Taak</f:facet>
+                                <h:outputText value="Zaalpersoneel" rendered="#{table.getClass().getSimpleName() == 'Zaalpersoneel'}"></h:outputText>
+                                <h:outputText value="Keukenpersoneel" rendered="#{table.getClass().getSimpleName() == 'Keukenpersoneel'}"></h:outputText>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Nieuwe bestelling</f:facet>
+                                <h:commandLink value="Nieuwe bestelling" action="#{bestellingController.maakBestelling(table)}" rendered="#{table.getClass().getSimpleName() == 'Zaalpersoneel'}"></h:commandLink>
+                            </h:column>
+                        </h:dataTable>
+                    </h:form>
+                </div>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>

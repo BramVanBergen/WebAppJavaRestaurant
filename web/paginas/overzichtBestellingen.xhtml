@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <body>
+        <ui:composition template="/templates/Layout.xhtml">
+            <ui:define name="content">
+                <h:form>
+                    <div class="container">
+                        <h:dataTable var="b" value="#{bestellingController.bestellingen}" class="table">
+                            <h:column>    				
+                                <f:facet name = "header">Datum</f:facet>    				
+                                <h:outputText value="#{b.datum.time}">
+                                    <f:convertDateTime type="both" dateStyle="long" />
+                                </h:outputText>
+                            </h:column>
+                            <h:column>    				
+                                <f:facet name = "header">Betaald</f:facet>
+                                <h:outputText value="Ja" rendered="#{b.betaald == 'true'}" />
+                                <h:outputText value="Nee" rendered="#{b.betaald == 'false'}" />
+                            </h:column>
+                            <h:column>    				
+                                <f:facet name = "header">Verantwoordelijke</f:facet>    				
+                                    #{b.zaalpersoneel.naam}
+                            </h:column>
+                            <h:column>    				
+                                <f:facet name = "header">Tafelcode</f:facet>    				
+                                    #{b.tafel.code}
+                            </h:column>
+                            <h:column>
+                                <h:commandLink class="" action="#{bestellingController.zoekBestelling(b.id)}">Details</h:commandLink>
+                            </h:column>
+                        </h:dataTable>
+                    </div>
+                    <div class="row justify-content-center">
+                        <h:commandLink class="btn knop nav-item center col-md-3" action="zoekBestellingen">Nieuwe zoekopdracht</h:commandLink>
+                    </div>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>

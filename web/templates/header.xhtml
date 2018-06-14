@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <head>
+        <title>Homepage</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous"/>
+        <link href="style.css" rel="stylesheet"/>
+    </head>
+    <body>
+        <ui:composition>
+            <h:form>
+                <nav class="navbar navbar-expand-lg navbar-light bg-light justify-content-center">
+                    <h:commandButton class="btn knop nav-item" value="Test Singleton Pattern" action="#{testController.testSingletonPatroon()}"/>
+                    <h:commandButton class="btn knop nav-item" value="Test Observer Pattern" action="#{testController.testObserverPatroon()}"/>
+                    <h:commandButton class="btn knop nav-item" value="Test Strategy Pattern" action="#{testController.testStrategyPatroon()}"/>
+                    <h:commandButton class="btn knop nav-item" value="Test Decorator Pattern" action="#{testController.testDecoratorPatroon()}"/> 
+                    <h:commandButton class="btn knop nav-item" value="Bestellingen opvullen" action="#{bestellingController.opvullen()}"/>  
+                    <h:commandButton class="btn knop nav-item" value="Zoek bestellingen" action="zoekBestellingen"/>
+                </nav>
+            </h:form>
+        </ui:composition>
+    </body>
+</html>

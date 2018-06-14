@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <body>
+        <ui:composition template="/templates/Layout.xhtml">
+            <ui:define name="content">
+                <h:form>
+                    <div class="container">
+                        <h3>Algemeen</h3>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Zaalverantwoordelijke</th>
+                                    <th>Datum</th>
+                                    <th>Tafel</th>
+                                    <th>Betaald</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>#{bestellingController.bestelling.zaalpersoneel.naam}</td>
+                                    <td>
+                                        <h:outputText value="#{bestellingController.bestelling.datum.time}">
+                                            <f:convertDateTime type="both" dateStyle="long" />
+                                        </h:outputText>
+                                    </td>
+                                    <td>#{bestellingController.bestelling.tafel.code}</td>
+                                    <td>#{bestellingController.bestelling.betaald}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <h3>Bestelde gerechten</h3>
+                        <h:dataTable var="b" value="#{bestellingController.bestelling.besteldeItems}" class="table table-hover">
+                            <h:column>    				
+                                <f:facet name = "header">Gerecht</f:facet>
+                                    #{b.gerecht.naam}
+                            </h:column>
+                            <h:column>    				
+                                <f:facet name = "header">Actuele prijs</f:facet>  
+                                € #{b.gerecht.actuelePrijs}
+                            </h:column>
+                            <h:column>
+                                <f:facet name = "header">Toegepaste prijs</f:facet>  
+                                € #{b.toegepastePrijs}
+                            </h:column>
+                            <h:column>    				
+                                <f:facet name = "header">Aantal</f:facet>   
+                                    #{b.aantal}
+                            </h:column>
+                        </h:dataTable>
+                        <h3>Totaalprijs:</h3>
+                        <p>€ #{bestellingController.bestelling.total}</p>
+                        <div class="row justify-content-center">
+                            <h:commandButton class="btn knop nav-item" value="Terug naar de homepage" action="homepage"/>
+                        </div>
+                    </div>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>

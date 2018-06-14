@@ -36,6 +36,28 @@ public class Gerecht implements Serializable {
         this.id = id;
     }
 
+    public String getNaam() {
+        return naam;
+    }
+
+    public void setNaam(String naam) {
+        this.naam = naam;
+    }
+
+    public double getActuelePrijs() {
+        return actuelePrijs;
+    }
+
+    public void setActuelePrijs(double actuelePrijs) {
+        this.actuelePrijs = (double) Math.round(actuelePrijs * 100) / 100;
+    }
+
+    public Gerecht(Long id, String naam, double actuelePrijs) {
+        this.id = id;
+        this.naam = naam;
+        this.actuelePrijs = (double) Math.round(actuelePrijs * 100) / 100;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 0;
@@ -59,27 +81,5 @@ public class Gerecht implements Serializable {
     @Override
     public String toString() {
         return "fact.it.www.entity.Gerecht[ id=" + id + " ]";
-    }
-
-    public String getNaam() {
-        return naam;
-    }
-
-    public void setNaam(String naam) {
-        this.naam = naam;
-    }
-
-    public double getActuelePrijs() {
-        return actuelePrijs;
-    }
-
-    public void setActuelePrijs(double actuelePrijs) {
-        this.actuelePrijs = actuelePrijs;
-    }
-
-    public Gerecht(Long id, String naam, double actuelePrijs) {
-        this.id = id;
-        this.naam = naam;
-        this.actuelePrijs = actuelePrijs;
     }
 }
