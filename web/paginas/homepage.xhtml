@@ -15,7 +15,7 @@ and open the template in the editor.
                 <div class="container">
                     <h:form>
                         <h1>Personeel</h1>
-                        <h:dataTable var="table" value="#{personeelController.findAll()}" class="table">
+                        <h:dataTable var="table" value="#{personeelController.findAll()}" class="table table-hover">
                             <h:column>
                                 <f:facet name="header">Naam</f:facet>
                                     #{table.naam}
@@ -28,6 +28,10 @@ and open the template in the editor.
                             <h:column>
                                 <f:facet name="header">Nieuwe bestelling</f:facet>
                                 <h:commandLink value="Nieuwe bestelling" action="#{bestellingController.maakBestelling(table)}" rendered="#{table.getClass().getSimpleName() == 'Zaalpersoneel'}"></h:commandLink>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Onbetaalde bestellingen</f:facet>
+                                <h:commandLink value="Onbetaalde bestellingen" action="#{bestellingController.onbetaaldeBestellingen(table)}" rendered="#{table.getClass().getSimpleName() == 'Zaalpersoneel'}"></h:commandLink>
                             </h:column>
                         </h:dataTable>
                     </h:form>

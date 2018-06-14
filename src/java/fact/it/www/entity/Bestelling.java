@@ -28,7 +28,7 @@ import javax.persistence.Transient;
 @NamedQueries ({
     @NamedQuery(
         name = "Bestelling.zoekOpTafel",
-        query = "select b FROM Bestelling AS b where (b.tafel.id) = :tafelId"
+        query = "select b FROM Bestelling b where (b.tafel.id) = :tafelId"
     ),
     @NamedQuery(
         name = "Bestelling.zoekOpDag",
@@ -41,6 +41,10 @@ import javax.persistence.Transient;
     @NamedQuery(
         name = "Bestelling.zoekOpJaar",
         query = "select b FROM Bestelling b where extract(year from b.datum) = :jaar"
+    ),
+        @NamedQuery(
+        name = "Bestelling.zoekOnbetaaldeBestellingPersoneelslid",
+        query = "select b FROM Bestelling b where (b.zaalpersoneel) = :zaalpersoneel and (b.betaald) = false"
     )
 })
 @Entity

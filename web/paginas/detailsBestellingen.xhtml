@@ -33,7 +33,10 @@ and open the template in the editor.
                                         </h:outputText>
                                     </td>
                                     <td>#{bestellingController.bestelling.tafel.code}</td>
-                                    <td>#{bestellingController.bestelling.betaald}</td>
+                                    <td>
+                                        <h:outputText value="Ja" rendered="#{bestellingController.bestelling.betaald == 'true'}" />
+                                        <h:outputText value="Nee" rendered="#{bestellingController.bestelling.betaald == 'false'}" />
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -60,7 +63,7 @@ and open the template in the editor.
                         <h3>Totaalprijs:</h3>
                         <p>€ #{bestellingController.bestelling.total}</p>
                         <div class="row justify-content-center">
-                            <h:commandButton class="btn knop nav-item" value="Terug naar de homepage" action="homepage"/>
+                            <h:commandButton class="btn knop nav-item" value="Overzicht" action="overzichtBestellingen"/>
                         </div>
                     </div>
                 </h:form>

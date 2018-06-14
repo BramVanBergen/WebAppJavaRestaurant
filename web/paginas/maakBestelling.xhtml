@@ -60,6 +60,8 @@ and open the template in the editor.
                                 <h:commandLink class="btn" action="#{bestellingController.removeBesteldItem(b.gerecht.id, b.aantal, b.toegepastePrijs)}">Verwijder</h:commandLink>
                             </h:column>
                         </h:dataTable>
+                        <h4>Totaal:</h4>
+                        <p>€ #{bestellingController.bestelling.total}</p>
                         <table class="table">
                             <thead>
                                 <tr>

@@ -14,33 +14,27 @@ and open the template in the editor.
             <ui:define name="content">
                 <h:form>
                     <div class="container">
+                        <h3>Onbetaalde bestellingen van #{bestellingController.zaalpersoneel.naam}</h3>
+
                         <h:dataTable var="b" value="#{bestellingController.bestellingen}" class="table">
                             <h:column>    				
-                                <f:facet name = "header">Datum</f:facet>    				
+                                <f:facet name="header">Datum</f:facet>    				
                                 <h:outputText value="#{b.datum.time}">
                                     <f:convertDateTime type="both" dateStyle="long" />
                                 </h:outputText>
                             </h:column>
                             <h:column>    				
-                                <f:facet name = "header">Betaald</f:facet>
-                                <h:outputText value="Ja" rendered="#{b.betaald == 'true'}" />
-                                <h:outputText value="Nee" rendered="#{b.betaald == 'false'}" />
+                                <f:facet name="header">Totaal</f:facet>    				
+                                    #{b.total}
                             </h:column>
                             <h:column>    				
-                                <f:facet name = "header">Verantwoordelijke</f:facet>    				
-                                    #{b.zaalpersoneel.naam}
-                            </h:column>
-                            <h:column>    				
-                                <f:facet name = "header">Tafelcode</f:facet>    				
-                                    #{b.tafel.code}
-                            </h:column>
-                            <h:column>
-                                <h:commandLink class="" action="#{bestellingController.zoekBestelling(b.id)}">Details</h:commandLink>
+                                <f:facet name="header">Betalen</f:facet>
+                                    <h:commandButton value="Zet op betaald" action="#{bestellingController.betaalBestelling(b.id)}" class="btn knop nav-item"/>
                             </h:column>
                         </h:dataTable>
-                    </div>
-                    <div class="row justify-content-center">
-                        <h:commandButton class="btn knop nav-item" value="Nieuwe zoekopdracht" action="zoekBestellingen"/>
+                        <div class="row justify-content-center">
+                            <h:commandButton class="btn knop nav-item" value="Terug naar de homepage" action="homepage"/>
+                        </div>
                     </div>
                 </h:form>
             </ui:define>

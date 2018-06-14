@@ -43,7 +43,7 @@ public class BestellingController implements Serializable {
     private GerechtFacade gerechtFacade;
     @EJB
     private PersoneelFacade personeelFacade;
-    
+
     private Bestelling bestelling = new Bestelling();
     private List<Bestelling> bestellingen;
     private Zaalpersoneel zaalpersoneel = new Zaalpersoneel();
@@ -226,6 +226,14 @@ public class BestellingController implements Serializable {
         return "maakBestelling";
     }
 
+    /**
+     * Gerecht toevoegen aan de huidige bestelling
+     *
+     * @param gerechtId ==> id van het gerecht
+     * @param aantal ==> aantal keer besteld
+     * @param betaalStrategie ==> Gewone betaling of Happy hour
+     * @return naam van de view
+     */
     public String addGerecht(int gerechtId, int aantal, String betaalStrategie) {
         Gerecht gerecht = gerechtFacade.find((long) gerechtId);
 
@@ -243,6 +251,14 @@ public class BestellingController implements Serializable {
         return "maakBestelling";
     }
 
+    /**
+     * Gerecht verwijderen van de huidige bestelling
+     *
+     * @param gerechtId ==> id van het gerecht
+     * @param aantal ==> aantal keer besteld
+     * @param prijs ==> prijs van het gerecht
+     * @return naam van de view
+     */
     public String removeBesteldItem(int gerechtId, int aantal, double prijs) {
         Gerecht gerecht = gerechtFacade.find((long) gerechtId);
 
@@ -251,6 +267,12 @@ public class BestellingController implements Serializable {
         return "maakBestelling";
     }
 
+    /**
+     * Huidige bestelling opslaan
+     *
+     * @param tafelId ==> id van de tafel
+     * @return naam van de view
+     */
     public String opslaanBestelling(int tafelId) {
         Tafel tafel = tafelFacade.find((long) tafelId);
 
@@ -258,13 +280,48 @@ public class BestellingController implements Serializable {
         bestelling.setZaalpersoneel(zaalpersoneel);
         bestelling.setDatum(new GregorianCalendar());
 
-        System.out.println(zaalpersoneel.getNaam());
-
         this.bestellingFacade.create(bestelling);
+
+        bestellingen = bestellingFacade.onbetaaldeBestellingPersoneelslid(zaalpersoneel);
 
         return "homepage";
     }
 
+    /**
+     * Onbetaalde bestellingen van een bepaald personeelslid laten zien
+     *
+     * @param zaalpersoneel ==> id van het personeelslid
+     * @return naam van de view
+     */
+    public String onbetaaldeBestellingen(Zaalpersoneel zaalpersoneel) {
+        this.zaalpersoneel = zaalpersoneel;
+
+        bestellingen = bestellingFacade.onbetaaldeBestellingPersoneelslid(zaalpersoneel);
+
+        return "onbetaaldeBestellingen";
+    }
+
+    /**
+     * bestelling op betaald zetten
+     *
+     * @param bestellingId --> id van de bestelling
+     * @return terugkeren naar de view waar we van komen
+     */
+    public String betaalBestelling(int bestellingId) {
+        bestelling = bestellingFacade.find((long) bestellingId);
+        bestelling.setBetaald(true);
+        this.bestellingFacade.edit(bestelling);
+
+        bestellingen = bestellingFacade.onbetaaldeBestellingPersoneelslid(zaalpersoneel);
+
+        return "onbetaaldeBestellingen";
+    }
+
+    /**
+     * Testgegevens in de databank zetten om een beginsituatie te creëren
+     *
+     * @return naam van de view
+     */
     public String opvullen() {
         IngangTeller klantTeller = IngangTeller.getInstance();
 
@@ -383,7 +440,7 @@ public class BestellingController implements Serializable {
         bestelling3.setTafel(tafel3);
         bestelling4.setTafel(tafel4);
         bestelling5.setTafel(tafel5);
-        
+
         //Zaalpersoneel aan bestelling toevoegen
         bestelling1.setZaalpersoneel(dieter);
         bestelling2.setZaalpersoneel(arno);
